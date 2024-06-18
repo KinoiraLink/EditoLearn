@@ -16,20 +16,32 @@ namespace EditorFramework
             GetWindow<RootWindow>().Show();
         }
 
+        private IEnumerable<Type> mEditorWindowTypes;
+
         private void OnEnable()
         {
             var editorWindowType = typeof(EditorWindow);
             var m_Parent = editorWindowType.GetField("m_Parent", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var editorWindowTypes =AppDomain.CurrentDomain.GetAssemblies()
+             mEditorWindowTypes =AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assemble => assemble.GetTypes())
                 .Where(type => type.IsSubclassOf(editorWindowType));
+        }
 
-            foreach (var windowType in editorWindowTypes)
+        private void OnGUI()
+        {
+            foreach (var editorWindowType in mEditorWindowTypes)
             {
-                Debug.Log(windowType.Name);
+                GUILayout.BeginHorizontal("box");
+                {
+                    GUILayout.Label(editorWindowType.Name);
+                    if (GUILayout.Button("Open", GUILayout.Width(80)))
+                    {
+                        GetWindow(editorWindowType).Show();
+                    }
+                }
+                GUILayout.EndHorizontal();
             }
-
         }
     }
 }
