@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace EditorFramework
 {
     public class RootWindow : EditorWindow
@@ -25,7 +26,8 @@ namespace EditorFramework
 
              mEditorWindowTypes =AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assemble => assemble.GetTypes())
-                .Where(type => type.IsSubclassOf(editorWindowType));
+                .Where(type => type.IsSubclassOf(editorWindowType))
+                .Where(type => type.GetCustomAttribute<CustomEditorWindowAttribute>() != null);
         }
 
         private void OnGUI()
@@ -42,6 +44,7 @@ namespace EditorFramework
                 }
                 GUILayout.EndHorizontal();
             }
+            
         }
     }
 }
