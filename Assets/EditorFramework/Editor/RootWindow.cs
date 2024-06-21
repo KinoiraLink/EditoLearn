@@ -24,7 +24,8 @@ namespace EditorFramework
             //var m_Parent = editorWindowType.GetField("m_Parent", BindingFlags.Instance | BindingFlags.NonPublic);
             mEditorWindowTypes =
                 typeof(EditorWindow).
-                       GetSubTypesWithClassAttributeInAssemblies<CustomEditorWindowAttribute>();
+                       GetSubTypesWithClassAttributeInAssemblies<CustomEditorWindowAttribute>()
+                       .OrderBy(type => type.GetCustomAttribute<CustomEditorWindowAttribute>().RenderOrder);
         }
 
         private void OnGUI()
