@@ -10,13 +10,16 @@ namespace EditorFramework
     [CustomEditorWindow(5)]
     public class FolderFieldExample : EditorWindow
     {
-        private string mPath = String.Empty;
+        private string mPath = "String_Empty";
         private void OnGUI()
         {
             var rect = EditorGUILayout.GetControlRect(GUILayout.Height(20));
+            var rects = rect.VerticalSplit(rect.width - 30);
+            var leftRect = rects[0];
+            var rightRect = rects[1];
 
-            GUI.Label(rect,mPath);
-            if (GUI.Button(rect, GUIContents.Folder))
+            GUI.Label(leftRect,mPath);
+            if (GUI.Button(rightRect, GUIContents.Folder))
             {
                 var path = EditorUtility.OpenFolderPanel("打开文件", Application.dataPath, "default Name");
 
@@ -24,7 +27,7 @@ namespace EditorFramework
                 Debug.Log(path);
             }
 
-            var dragInfo = DragAndDropTool.Drag(Event.current, rect);
+            var dragInfo = DragAndDropTool.Drag(Event.current, leftRect);
 
             if (dragInfo.enterArea && dragInfo.complete && !dragInfo.dragging)
             {
