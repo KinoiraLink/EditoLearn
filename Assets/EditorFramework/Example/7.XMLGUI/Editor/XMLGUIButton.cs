@@ -9,9 +9,9 @@ namespace EditorFramework
         public string Label;
         
 
-        public override void ParseXML(XmlElement xmlElement)
+        public override void ParseXML(XmlElement xmlElement,XMLGUI rootXMLGUI)
         {
-            base.ParseXML(xmlElement);
+            base.ParseXML(xmlElement,rootXMLGUI);
             Label = xmlElement.InnerText;
         }
 

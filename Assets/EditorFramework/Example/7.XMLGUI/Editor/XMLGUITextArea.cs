@@ -9,9 +9,9 @@ namespace EditorFramework
 
         
 
-        public override void ParseXML(XmlElement xmlElement)
+        public override void ParseXML(XmlElement xmlElement,XMLGUI rootXMLGUI)
         {
-            base.ParseXML(xmlElement);
+            base.ParseXML(xmlElement, rootXMLGUI);
             Text = xmlElement.InnerText;
         }
         public override void OnGUI(Rect position)

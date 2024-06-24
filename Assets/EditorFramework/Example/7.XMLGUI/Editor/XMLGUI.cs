@@ -17,7 +17,9 @@ namespace EditorFramework
             {"TextArea",()=> new XMLGUITextArea()},
             {"Button",() => new XMLGUIButton()},
             {"LayoutLabel",(() => new XMLGUILayoutLabel())},
-            {"LayoutButton",(() => new XMLGUILayoutButton())}
+            {"LayoutButton",(() => new XMLGUILayoutButton())},
+            { "LayoutHorizontal", (()=> new XMLGUILayoutHorizontal())},
+            {"LayoutVertical",()=> new XMLGUILayoutVertical()}
         };
 
         public T GetGUIBaseById<T>(string id) where T : XMLGUIBase
@@ -37,31 +39,40 @@ namespace EditorFramework
             var doc = new XmlDocument();
             doc.LoadXml(xml);
             XmlNode rootNode = doc.SelectSingleNode("GUI");
+            ChildElementsToGUIBase(rootNode as XmlElement,this);
+
+        }
+        public void ChildElementsToGUIBase(XmlElement rootElement,XMLGUI rootXMLGUI)
+        {
             string id = string.Empty;
             XMLGUIBase guibase = default;
-            if (rootNode != null)
+            if (rootElement != null)
             {
-                foreach (var rootNodeChildNode in rootNode.ChildNodes)
+                foreach (var rootNodeChildNode in rootElement.ChildNodes)
                 {
                     if (rootNodeChildNode is XmlElement xmlElement)
                     {
                         if (mFactoriesForGUIBaseNames.TryGetValue(xmlElement.Name,out Func<XMLGUIBase> xmlGUIBaseFactory))
                         {
                             guibase = xmlGUIBaseFactory.Invoke();
-                            guibase.ParseXML(xmlElement);
-                            AddGUIBase(guibase);
+                            guibase.ParseXML(xmlElement,rootXMLGUI);
+                            AddGUIBase(guibase,rootXMLGUI);
                         }
                     }
                 }
             }
         }
-
-        private void  AddGUIBase(XMLGUIBase xmlguiBase)
+        private void  AddGUIBase(XMLGUIBase xmlguiBase,XMLGUI rootXMLGUI)
         {
             mGUIBases.Add(xmlguiBase);
             if (!string.IsNullOrEmpty(xmlguiBase.Id))
             {
                 mGUIBaseForId.Add(xmlguiBase.Id,xmlguiBase);
+
+                if (rootXMLGUI != this)
+                {
+                    rootXMLGUI.mGUIBaseForId.Add(xmlguiBase.Id,xmlguiBase);
+                }
             }
         }
 
@@ -72,6 +83,8 @@ namespace EditorFramework
                 xmlguiBase.Draw();
             }
         }
+
+        
 
         public Rect StringToRectPosition(string positionString)
         {

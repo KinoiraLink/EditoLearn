@@ -31,6 +31,7 @@ namespace EditorFramework
             mXmlgui = new XMLGUI();
             mXmlgui.ReadXML(mXMLContent);
 
+            var firstLine = mXmlgui.GetGUIBaseById<XMLGUILayoutHorizontal>("firstLine");
             /*mXmlgui.GetGUIBaseById<XMLGUIButton>("loginButton").OnClick += () =>
             {
                 Debug.Log("Clicked");

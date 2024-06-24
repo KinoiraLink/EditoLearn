@@ -7,7 +7,7 @@ namespace EditorFramework
     {
         public string Id { get; set; }
 
-        public virtual void ParseXML(XmlElement xmlElement)
+        public virtual void ParseXML(XmlElement xmlElement,XMLGUI rootXMLGUI)
         {
             var id = xmlElement.GetAttribute("id");
 

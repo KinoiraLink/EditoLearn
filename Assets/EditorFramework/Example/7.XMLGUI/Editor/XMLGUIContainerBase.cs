@@ -1,23 +1,21 @@
 ﻿using System.Xml;
-using UnityEngine;
 
 namespace EditorFramework
 {
-    public class XMLGUILabel : XMLGUIBase
+    public abstract class XMLGUIContainerBase : XMLGUIBase
     {
-        public string Text;
+        protected XMLGUI mXmlgui = new XMLGUI();
 
-        public override void OnGUI(Rect position)
+        public XMLGUI XMLGUI
         {
-            base.OnGUI(position);
-            GUI.Label(position,Text);
+            get { return mXmlgui; }
         }
+
         public override void ParseXML(XmlElement xmlElement,XMLGUI rootXMLGUI)
         {
             base.ParseXML(xmlElement,rootXMLGUI);
-            Text = xmlElement.InnerText;
+            mXmlgui.ChildElementsToGUIBase(xmlElement,rootXMLGUI);
         }
-
         protected override void OnDispose()
         {
             throw new System.NotImplementedException();
