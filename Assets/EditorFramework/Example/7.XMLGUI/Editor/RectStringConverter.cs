@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace EditorFramework
 {
+    //转换器模式
     public class RectStringConverter : StringConverter<Rect>
     {
         public override bool TryConvert(string self, out Rect result)
