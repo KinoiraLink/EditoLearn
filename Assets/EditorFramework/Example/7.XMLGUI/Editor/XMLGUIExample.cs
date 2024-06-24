@@ -41,12 +41,7 @@ namespace EditorFramework
 
         private void OnGUI()
         {
-           // var selfSize = this.LocalPosition();
-            foreach (GUIBase guiBase in mXmlgui.GUIBases)
-            {
-                //var rect = GUILayoutUtility.GetRect(selfSize.width,selfSize.height);
-                guiBase.OnGUI(default);
-            }
+           mXmlgui.Draw();
         }
     }
     

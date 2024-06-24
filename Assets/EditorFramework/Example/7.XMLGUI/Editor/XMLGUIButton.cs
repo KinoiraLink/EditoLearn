@@ -17,7 +17,7 @@ namespace EditorFramework
         public override void OnGUI(Rect position)
         {
             base.OnGUI(position);
-            if (GUILayout.Button(Label))
+            if (GUI.Button(position,Label))
             {
                 OnClick?.Invoke();
             }
