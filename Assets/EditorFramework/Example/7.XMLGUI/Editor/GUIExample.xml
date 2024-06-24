@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GUI>
     <Label>Hello XMLGUI</Label>
+    <TextField>Please Input Text Field</TextField>>
 </GUI>
