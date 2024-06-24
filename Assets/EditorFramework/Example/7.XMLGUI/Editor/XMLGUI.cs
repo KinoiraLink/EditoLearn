@@ -25,58 +25,46 @@ namespace EditorFramework
             var doc = new XmlDocument();
             doc.LoadXml(xml);
             XmlNode rootNode = doc.SelectSingleNode("GUI");
+            string id = string.Empty;
+            XMLGUIBase guibase = default;
             if (rootNode != null)
             {
                 foreach (var rootNodeChildNode in rootNode.ChildNodes)
                 {
-                    string id = string.Empty;
                     if (rootNodeChildNode is XmlElement xmlElement)
                     {
                         if (xmlElement.Name == "Label")
                         {
                             id = xmlElement.Attributes["id"].Value;
-                            var guibase = new XMLGUILabel(xmlElement.InnerText);
+                            guibase = new XMLGUILabel(xmlElement.InnerText);
                             guibase.Id = id;
-                            GUIBases.Add(guibase);
-                            if (!string.IsNullOrEmpty(id))
-                            {
-                                GUIBaseForId.Add(id,guibase);
-                            }
+                            AddGUIBase(guibase);
+
                     
                         }
                         else if (xmlElement.Name == "TextField")
                         {
                             id = xmlElement.Attributes["id"].Value;
-                            var guibase = new XMLGUITextField(xmlElement.InnerText);
+                            guibase = new XMLGUITextField(xmlElement.InnerText);
                             guibase.Id = id;
-                            GUIBases.Add(guibase);
-                            if (!string.IsNullOrEmpty(id))
-                            {
-                                GUIBaseForId.Add(id,guibase);
-                            }
+                            AddGUIBase(guibase);
+
                         }
                         else if (xmlElement.Name == "TextArea")
                         {
                             id = xmlElement.Attributes["id"].Value;
-                            var guibase = new XMLGUITextArea(xmlElement.InnerText);
+                            guibase = new XMLGUITextArea(xmlElement.InnerText);
                             guibase.Id = id;
-                            GUIBases.Add(guibase);
-                            if (!string.IsNullOrEmpty(id))
-                            {
-                                GUIBaseForId.Add(id,guibase);
-                            }
+                            AddGUIBase(guibase);
+
 
                         }
                         else if (xmlElement.Name == "Button")
                         {
                             id = xmlElement.Attributes["id"].Value;
-                            var guibase = new XMLGUIButton(xmlElement.InnerText);
+                            guibase = new XMLGUIButton(xmlElement.InnerText);
                             guibase.Id = id;
-                            GUIBases.Add(guibase);
-                            if (!string.IsNullOrEmpty(id))
-                            {
-                                GUIBaseForId.Add(id,guibase);
-                            }
+                            AddGUIBase(guibase);
                         }
                     }
                 
@@ -84,5 +72,15 @@ namespace EditorFramework
                 }
             }
         }
+
+        private void  AddGUIBase(XMLGUIBase xmlguiBase)
+        {
+            GUIBases.Add(xmlguiBase);
+            if (!string.IsNullOrEmpty(xmlguiBase.Id))
+            {
+                GUIBaseForId.Add(xmlguiBase.Id,xmlguiBase);
+            }
+        }
+        
     }
 }
