@@ -9,7 +9,9 @@ namespace EditorFramework
     {
         public static Dictionary<Type, StringConverter> mConverterMap = new()
         {
-            {typeof(Rect),new RectStringConverter()}
+            {typeof(Rect),new RectStringConverter()},
+            {typeof(string),new StringStringConverter()},
+            {typeof(bool),new BooleanStringConverter()}
         };
 
         public static StringConverter<T> Get<T>()

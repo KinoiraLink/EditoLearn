@@ -25,13 +25,8 @@ namespace EditorFramework
 
         public virtual void ParseXML(XmlElement xmlElement,XMLGUI rootXMLGUI)
         {
-            var id = xmlElement.GetAttribute("id");
-
-            if (!string.IsNullOrEmpty(id))
-            {
-                Id = id;
-            }
-
+            
+            Id = GetAttributeValue<string>(xmlElement, "id");
             mPostition = GetAttributeValue<Rect>(xmlElement, "position");
         }
 
