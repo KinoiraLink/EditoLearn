@@ -6,7 +6,7 @@
     <TextArea id="description" position="0,90,200,80">Please Input Text Area</TextArea>
     <Button id="loginButton" position="0,210,200,40">ClickButton</Button>
  -->
-    <LayoutVertical>
+    <LayoutVertical box ="true">
         <LayoutHorizontal id="firstLine">
             <LayoutLabel>LayoutLabel</LayoutLabel>
             <LayoutButton id ="registerButton">onClick</LayoutButton>

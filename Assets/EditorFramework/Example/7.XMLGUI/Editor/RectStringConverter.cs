@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace EditorFramework
 {
-    public static class RectStringConverter 
+    public class RectStringConverter : StringConverter<Rect>
     {
-        public static Rect ConVert(string rectString)
+        public override bool TryConvert(string self, out Rect result)
         {
-            var positionChars  = rectString.Split(',');
+            var positionChars  = self.Split(',');
             Rect position = new Rect()
             {
                 x = int.Parse(positionChars[0]),
@@ -16,7 +16,8 @@ namespace EditorFramework
                 width = int.Parse(positionChars[2]),
                 height = int.Parse(positionChars[3])
             };
-            return position;
+            result = position;
+            return true;
         }
     }
     

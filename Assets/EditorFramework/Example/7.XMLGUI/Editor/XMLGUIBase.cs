@@ -5,6 +5,22 @@ namespace EditorFramework
 {
     public abstract class XMLGUIBase : GUIBase
     {
+        protected T GetAttributeValue<T>(XmlElement xmlElement,string attributeName)
+        {
+            var attributeValue = xmlElement.GetAttribute(attributeName);
+            if (!string.IsNullOrEmpty(attributeValue))
+            {
+                T result = default;
+                if (attributeValue.TryConvert<T>(out result))
+                {
+                    return result;
+                }
+            }
+            
+
+            return default;
+
+        }
         public string Id { get; set; }
 
         public virtual void ParseXML(XmlElement xmlElement,XMLGUI rootXMLGUI)
@@ -16,12 +32,7 @@ namespace EditorFramework
                 Id = id;
             }
 
-            var positionString = xmlElement.GetAttribute("position");
-
-            if (!string.IsNullOrEmpty(positionString))
-            {
-                mPostition = RectStringConverter.ConVert(positionString);
-            }
+            mPostition = GetAttributeValue<Rect>(xmlElement, "position");
         }
 
         public void SetPosition(Rect position)
