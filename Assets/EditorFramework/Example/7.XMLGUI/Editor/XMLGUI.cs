@@ -15,7 +15,9 @@ namespace EditorFramework
             {"Label",()=> new XMLGUILabel()},
             {"TextField",()=>new XMLGUITextField()},
             {"TextArea",()=> new XMLGUITextArea()},
-            {"Button",() => new XMLGUIButton()}
+            {"Button",() => new XMLGUIButton()},
+            {"LayoutLabel",(() => new XMLGUILayoutLabel())},
+            {"LayoutButton",(() => new XMLGUILayoutButton())}
         };
 
         public T GetGUIBaseById<T>(string id) where T : XMLGUIBase

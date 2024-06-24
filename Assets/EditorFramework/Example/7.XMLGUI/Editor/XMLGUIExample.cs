@@ -31,10 +31,14 @@ namespace EditorFramework
             mXmlgui = new XMLGUI();
             mXmlgui.ReadXML(mXMLContent);
 
-            mXmlgui.GetGUIBaseById<XMLGUIButton>("loginButton").OnClick += () =>
+            /*mXmlgui.GetGUIBaseById<XMLGUIButton>("loginButton").OnClick += () =>
             {
                 Debug.Log("Clicked");
                 mXmlgui.GetGUIBaseById<XMLGUILabel>("label").Text = "1";
+            };*/
+            mXmlgui.GetGUIBaseById<XMLGUILayoutButton>("registerButton").OnClick += () =>
+            {
+                Debug.Log("LayoutButton Clicked");
             };
 
         }

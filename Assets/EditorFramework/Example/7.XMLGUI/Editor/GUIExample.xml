@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GUI>
-    <Label id="label" position="0,0,200,40">Hello XMLGUI</Label>
+<!--    <Label id="label" position="0,0,200,40">Hello XMLGUI</Label>
     <TextField id="username" position="0,50,200,20">Please Input Text Field</TextField>>
     <TextArea id="description" position="0,90,200,80">Please Input Text Area</TextArea>
-    <Button id="loginButton" position="0,210,200,40">ClickButton</Button>
+    <Button id="loginButton" position="0,210,200,40">ClickButton</Button>-->
+    <LayoutLabel>LayoutLabel</LayoutLabel>
+    <LayoutButton id ="registerButton">onClick</LayoutButton>
 </GUI>
