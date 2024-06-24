@@ -2,10 +2,11 @@
 
 namespace EditorFramework
 {
-    public class XMLGUITextField : XMLGUIBase
+    public class XMLGUITextArea : XMLGUIBase
     {
         public string Text;
-        public XMLGUITextField(string text)
+
+        public XMLGUITextArea(string text)
         {
             Text = text;
         }
@@ -13,7 +14,7 @@ namespace EditorFramework
         public override void OnGUI(Rect position)
         {
             base.OnGUI(position);
-            Text = GUILayout.TextField(Text);
+            Text = GUILayout.TextArea(Text);
         }
 
         protected override void OnDispose()

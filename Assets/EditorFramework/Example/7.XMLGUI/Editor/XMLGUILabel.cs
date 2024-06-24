@@ -2,7 +2,7 @@
 
 namespace EditorFramework
 {
-    public class XMLGUILabel : GUIBase
+    public class XMLGUILabel : XMLGUIBase
     {
         public string Text;
         public XMLGUILabel(string text)

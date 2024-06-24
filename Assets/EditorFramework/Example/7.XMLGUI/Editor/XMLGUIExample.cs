@@ -20,45 +20,29 @@ namespace EditorFramework
         private const string XMLFilePath = "Assets/EditorFramework/Example/7.XMLGUI/Editor/GUIExample.xml";
         private string mXMLContent;
 
-        public List<GUIBase> XMLGUI;
+        private XMLGUI mXmlgui;
+
         private void OnEnable()
         {
+            
             TextAsset xmlFileAsset =  AssetDatabase.LoadAssetAtPath<TextAsset>(XMLFilePath);
             mXMLContent = xmlFileAsset.text;
 
-            XMLGUI = new List<GUIBase>();
-            
-            var doc = new XmlDocument();
-            doc.LoadXml(mXMLContent);
-            XmlNode rootNode = doc.SelectSingleNode("GUI");
-            if (rootNode != null)
+            mXmlgui = new XMLGUI();
+            mXmlgui.ReadXML(mXMLContent);
+
+            mXmlgui.GetGUIBaseById<XMLGUIButton>("loginButton").OnClick += () =>
             {
-                foreach (var rootNodeChildNode in rootNode.ChildNodes)
-                {
-                    if (rootNodeChildNode is XmlElement xmlElement)
-                    {
-                        if (xmlElement.Name == "Label")
-                        {
-                            XMLGUI.Add(new XMLGUILabel(xmlElement.InnerText));
-                    
-                        }
-                        else if (xmlElement.Name == "TextField")
-                        {
-                            XMLGUI.Add(new XMLGUITextField(xmlElement.InnerText));
-                        }
-                    }
-                
-            
-                }
-            }
-            
-            
+                Debug.Log("Clicked");
+                mXmlgui.GetGUIBaseById<XMLGUILabel>("label").Text = "1";
+            };
+
         }
 
         private void OnGUI()
         {
            // var selfSize = this.LocalPosition();
-            foreach (GUIBase guiBase in XMLGUI)
+            foreach (GUIBase guiBase in mXmlgui.GUIBases)
             {
                 //var rect = GUILayoutUtility.GetRect(selfSize.width,selfSize.height);
                 guiBase.OnGUI(default);
