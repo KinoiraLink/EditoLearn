@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using UnityEngine;
 
 namespace EditorFramework
@@ -6,10 +7,12 @@ namespace EditorFramework
     public class XMLGUIButton : XMLGUIBase
     {
         public string Label;
+        
 
-        public XMLGUIButton(string label)
+        public override void ParseXML(XmlElement xmlElement)
         {
-            Label = label;
+            base.ParseXML(xmlElement);
+            Label = xmlElement.InnerText;
         }
 
         public event Action OnClick;

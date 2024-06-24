@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using Unity.Plastic.Newtonsoft.Json.Serialization;
 using UnityEngine;
 
 namespace EditorFramework
@@ -8,6 +9,13 @@ namespace EditorFramework
     {
         private List<XMLGUIBase> mGUIBases = new List<XMLGUIBase>();
         private Dictionary<string, XMLGUIBase> mGUIBaseForId = new Dictionary<string, XMLGUIBase>();
+        private Dictionary<string, Func<XMLGUIBase>> mFactoriesForGUIBaseNames = new()
+        {
+            {"Label",()=> new XMLGUILabel()},
+            {"TextField",()=>new XMLGUITextField()},
+            {"TextArea",()=> new XMLGUITextArea()},
+            {"Button",() => new XMLGUIButton()}
+        };
 
         public T GetGUIBaseById<T>(string id) where T : XMLGUIBase
         {
@@ -34,61 +42,13 @@ namespace EditorFramework
                 {
                     if (rootNodeChildNode is XmlElement xmlElement)
                     {
-                        if (xmlElement.Name == "Label")
+                        if (mFactoriesForGUIBaseNames.TryGetValue(xmlElement.Name,out Func<XMLGUIBase> xmlGUIBaseFactory))
                         {
-                            id = xmlElement.Attributes["id"].Value;
-                            
-                           
-
-                            guibase = new XMLGUILabel(xmlElement.InnerText);
-                            guibase.Id = id;
-                            
-                            var positionString = xmlElement.Attributes["position"].Value;
-                            Rect position = StringToRectPosition(positionString);
-                            guibase.SetPosition(position);
-                            AddGUIBase(guibase);
-
-                    
-                        }
-                        else if (xmlElement.Name == "TextField")
-                        {
-                            id = xmlElement.Attributes["id"].Value;
-                            guibase = new XMLGUITextField(xmlElement.InnerText);
-                            guibase.Id = id;
-                            
-                            var positionString = xmlElement.Attributes["position"].Value;
-                            Rect position = StringToRectPosition(positionString);
-                            guibase.SetPosition(position);
-                            AddGUIBase(guibase);
-
-                        }
-                        else if (xmlElement.Name == "TextArea")
-                        {
-                            id = xmlElement.Attributes["id"].Value;
-                            guibase = new XMLGUITextArea(xmlElement.InnerText);
-                            guibase.Id = id;
-                            
-                            var positionString = xmlElement.Attributes["position"].Value;
-                            Rect position = StringToRectPosition(positionString);
-                            guibase.SetPosition(position);
-                            AddGUIBase(guibase);
-
-
-                        }
-                        else if (xmlElement.Name == "Button")
-                        {
-                            id = xmlElement.Attributes["id"].Value;
-                            guibase = new XMLGUIButton(xmlElement.InnerText);
-                            guibase.Id = id;
-                            
-                            var positionString = xmlElement.Attributes["position"].Value;
-                            Rect position = StringToRectPosition(positionString);
-                            guibase.SetPosition(position);
+                            guibase = xmlGUIBaseFactory.Invoke();
+                            guibase.ParseXML(xmlElement);
                             AddGUIBase(guibase);
                         }
                     }
-                
-            
                 }
             }
         }

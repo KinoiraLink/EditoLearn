@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Xml;
+using UnityEngine;
 
 namespace EditorFramework
 {
@@ -6,6 +7,22 @@ namespace EditorFramework
     {
         public string Id { get; set; }
 
+        public virtual void ParseXML(XmlElement xmlElement)
+        {
+            var id = xmlElement.GetAttribute("id");
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                Id = id;
+            }
+
+            var positionString = xmlElement.GetAttribute("position");
+
+            if (!string.IsNullOrEmpty(positionString))
+            {
+                mPostition = RectStringConverter.ConVert(positionString);
+            }
+        }
 
         public void SetPosition(Rect position)
         {

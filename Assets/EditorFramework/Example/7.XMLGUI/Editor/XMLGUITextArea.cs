@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Xml;
+using UnityEngine;
 
 namespace EditorFramework
 {
@@ -6,11 +7,13 @@ namespace EditorFramework
     {
         public string Text;
 
-        public XMLGUITextArea(string text)
-        {
-            Text = text;
-        }
+        
 
+        public override void ParseXML(XmlElement xmlElement)
+        {
+            base.ParseXML(xmlElement);
+            Text = xmlElement.InnerText;
+        }
         public override void OnGUI(Rect position)
         {
             base.OnGUI(position);
