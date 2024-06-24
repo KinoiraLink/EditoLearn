@@ -9,6 +9,7 @@ namespace EditorFramework
     {
         private List<XMLGUIBase> mGUIBases = new List<XMLGUIBase>();
         private Dictionary<string, XMLGUIBase> mGUIBaseForId = new Dictionary<string, XMLGUIBase>();
+        //抽象工厂模式
         private Dictionary<string, Func<XMLGUIBase>> mFactoriesForGUIBaseNames = new()
         {
             {"Label",()=> new XMLGUILabel()},
