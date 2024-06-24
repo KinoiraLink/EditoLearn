@@ -6,28 +6,55 @@ namespace EditorFramework
 {
     public class SplitView : GUIBase
     {
+        public SplitType SplitType = SplitType.Vertical;
         public event Action<Rect> FirstArea, SecondArea;
-
-        public float SplitWidth = 200;
+        public event Action OnBeginResize, OnEndResize;
+        public float SplitSize = 200;
         public float MinSize = 100;
+        private bool mResizing;
 
-        public bool Dragging = false;
+        public bool Dragging
+        {
+            get
+            {
+                return mResizing;
+            }
+            set
+            {
+                if (mResizing != value)
+                {
+                    mResizing = value;
+                    if (value)
+                    {
+                        if (OnBeginResize != null)
+                        {
+                            OnBeginResize();
+                        }
+                        else
+                        {
+                            OnEndResize?.Invoke();
+                        }
+                    }
+                }
+            }
+        }
         public override void OnGUI(Rect position)
         {
             base.OnGUI(position);
             
-            var rects = position.VerticalSplit(SplitWidth, 4);
+            var rects = position.Split(SplitType,SplitSize, 4);
 
-            var mid = position.VerticalSplitRect(SplitWidth, 4);
-            //右区域
-            if(SecondArea != null)
-            {
-                SecondArea(rects[1]);
-            }
+            var mid = position.SplitRect(SplitType,SplitSize, 4);
+     
             //左区域
             if(FirstArea != null)
             {
                 FirstArea(rects[0]);
+            }
+            //右区域
+            if(SecondArea != null)
+            {
+                SecondArea(rects[1]);
             }
         
             EditorGUI.DrawRect(mid.Zoom(AnchorType.MiddleCenter,-2),Color.green);
@@ -36,7 +63,15 @@ namespace EditorFramework
 
             if (mid.Contains(e.mousePosition))
             {
-                EditorGUIUtility.AddCursorRect(mid,MouseCursor.ResizeHorizontal);
+                if (SplitType == SplitType.Vertical)
+                {
+                    EditorGUIUtility.AddCursorRect(mid,MouseCursor.ResizeHorizontal);
+                }
+                else
+                {
+                    EditorGUIUtility.AddCursorRect(mid,MouseCursor.ResizeVertical);
+
+                }
             }
 
             switch (e.type)
@@ -50,9 +85,19 @@ namespace EditorFramework
                 case EventType.MouseDrag:
                     if (Dragging)
                     {
-                        SplitWidth += e.delta.x;
-                        
-                        SplitWidth = Mathf.Clamp(SplitWidth, MinSize, position.width -MinSize);
+                        if (SplitType == SplitType.Vertical)
+                        {
+                               SplitSize += e.delta.x;
+                                                    
+                               SplitSize = Mathf.Clamp(SplitSize, MinSize, position.width -MinSize);
+                        }
+                        else
+                        {
+                            SplitSize += e.delta.y;
+                                                    
+                            SplitSize = Mathf.Clamp(SplitSize, MinSize, position.height -MinSize);
+                        }
+                     
                         
                         e.Use();
                     }
@@ -71,6 +116,9 @@ namespace EditorFramework
         {
             FirstArea = null;
             SecondArea = null;
+            OnBeginResize = null;
+            OnEndResize = null;
+            
         }
     }
 }

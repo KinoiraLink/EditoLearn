@@ -18,16 +18,20 @@ namespace EditorFramework
             mSplitView.SecondArea += SplitViewSecondArea;
         }
 
-        private void SplitViewSecondArea(Rect obj)
-        {
-            GUI.Box(obj,"Second");
-        }
-
         private void SplitViewFirstArea(Rect obj)
         {
+            obj.Drawoutline(Color.green);
+            
             GUI.Box(obj,"First");
 
         }
+        private void SplitViewSecondArea(Rect obj)
+        {
+            obj.Drawoutline(Color.green);
+
+            GUI.Box(obj,"Second");
+        }
+        
 
         private void OnGUI()
         {
